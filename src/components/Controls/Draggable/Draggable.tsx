@@ -4,9 +4,13 @@ import { Position } from "../../../@types/position";
 type Props = {
   initialPosition: Position;
   children?: ReactNode | ReactNode[];
+  onDrag: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    position: Position
+  ) => void;
 };
 
-function Draggable({ initialPosition, children }: Props) {
+function Draggable({ initialPosition, children, onDrag }: Props) {
   const [position, setPosition] = useState(initialPosition);
   const [mousePositionDifference, setMousePositionDifference] = useState({
     x: 0,
@@ -29,6 +33,7 @@ function Draggable({ initialPosition, children }: Props) {
       mousePosition
     );
     setPosition(newPosition);
+    onDrag(e, position);
   }
   return (
     <>
@@ -39,7 +44,7 @@ function Draggable({ initialPosition, children }: Props) {
             handleDrag(e);
           }
         }}
-        onMouseUp={() => {
+        onMouseUp={(e) => {
           setmouseHolding(false);
         }}
         style={{ zIndex: mouseHolding ? 10 : 0 }}
@@ -50,7 +55,7 @@ function Draggable({ initialPosition, children }: Props) {
             handleDrag(e);
           }
         }}
-        onMouseUp={() => {
+        onMouseUp={(e) => {
           setmouseHolding(false);
         }}
         onMouseDown={(e) => {

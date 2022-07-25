@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 type Props = {
-  children: ReactNode | ReactNode[];
+  children?: ReactNode | ReactNode[];
 };
 
 function PreventDrag({ children }: Props) {

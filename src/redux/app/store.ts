@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import cursorReducer from "../features/cursor/cursorSlice";
+import graphReducer from "../features/graph/graphSlice";
 
 export const store = configureStore({
   reducer: {
     cursor: cursorReducer,
+    graph: graphReducer,
   },
 });
 

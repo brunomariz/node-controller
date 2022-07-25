@@ -1,10 +1,11 @@
 import React from "react";
-import logo from "./logo.svg";
+import LibraryScreen from "./components/LibraryScreen/LibraryScreen";
 import NodeController from "./components/NodeController/NodeController";
 
 function App() {
   return (
     <div>
+      <LibraryScreen></LibraryScreen>
       <NodeController></NodeController>
     </div>
   );

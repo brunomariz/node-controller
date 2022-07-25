@@ -3,16 +3,17 @@ import { selectedNodeChanged } from "./cursorSlice";
 
 describe("cursor reducer", () => {
   const initialState: CursorState = {
-    selectedNode: 0,
+    selectedNode: "Empty",
+    cursorVariety: "Move",
   };
   it("should handle initial state", () => {
     expect(cursorReducer(undefined, { type: "unknown" })).toEqual({
-      selectedNode: 0,
+      selectedNode: "Empty",
     });
   });
 
   it("should handle slection change", () => {
-    const actual = cursorReducer(initialState, selectedNodeChanged());
-    expect(actual.selectedNode).toEqual(1);
+    const actual = cursorReducer(initialState, selectedNodeChanged("Add"));
+    expect(actual.selectedNode).toEqual("Add");
   });
 });
