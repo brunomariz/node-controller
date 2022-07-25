@@ -3,7 +3,7 @@ import { NodeVariety } from "../../../@types/nodeVariety";
 import { useAppDispatch } from "../../../redux/app/hooks";
 import {
   cursorVarietyChanged,
-  selectedNodeChanged,
+  nodeVarietyChanged,
 } from "../../../redux/features/cursor/cursorSlice";
 
 type Props = {
@@ -25,7 +25,7 @@ function LibraryButton({ nodeVariety, value, color }: Props) {
       } border-2 border-black`}
       onClick={() => {
         dispatch(cursorVarietyChanged("AddNode"));
-        dispatch(selectedNodeChanged(nodeVariety));
+        dispatch(nodeVarietyChanged(nodeVariety));
       }}
     >
       {value}

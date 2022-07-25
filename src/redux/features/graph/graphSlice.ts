@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
 import { RootState, AppThunk } from "../../app/store";
 // import { fetchCount } from './counterAPI';
@@ -7,7 +8,7 @@ export interface GraphState {
   originNode: number;
   destinationNode: number;
   adjacencyList: number[][];
-  nodePositions: Position[];
+  nodes: { position: Position; variety: NodeVariety }[];
 }
 
 const initialState: GraphState = {
@@ -19,12 +20,12 @@ const initialState: GraphState = {
     [1, 2],
     [1, 3],
   ],
-  nodePositions: [
-    { x: 100, y: 200 },
-    { x: 110, y: 300 },
-    { x: 120, y: 400 },
-    { x: 130, y: 500 },
-    { x: 140, y: 600 },
+  nodes: [
+    { position: { x: 100, y: 200 }, variety: "Empty" },
+    { position: { x: 110, y: 300 }, variety: "Empty" },
+    { position: { x: 120, y: 400 }, variety: "Empty" },
+    { position: { x: 130, y: 500 }, variety: "Empty" },
+    { position: { x: 140, y: 600 }, variety: "Empty" },
   ],
 };
 
@@ -50,10 +51,16 @@ export const graphSlice = createSlice({
       action: PayloadAction<{ position: Position; id: number }>
     ) => {
       const { id, position } = action.payload;
-      state.nodePositions[id] = position;
+      state.nodes[id].position = position;
     },
-    newNode: (state, action: PayloadAction<Position>) => {
-      state.nodePositions = [...state.nodePositions, action.payload];
+    newNode: (
+      state,
+      action: PayloadAction<{ position: Position; variety: NodeVariety }>
+    ) => {
+      state.nodes = [
+        ...state.nodes,
+        { position: action.payload.position, variety: action.payload.variety },
+      ];
     },
     // decrement: (state) => {
     //   state.value -= 1;
@@ -76,8 +83,7 @@ export const {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectNodePositions = (state: RootState) =>
-  state.graph.nodePositions;
+export const selectNodes = (state: RootState) => state.graph.nodes;
 export const selectAdjacencyList = (state: RootState) => {
   return state.graph.adjacencyList;
 };

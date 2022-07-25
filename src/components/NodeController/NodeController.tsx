@@ -1,27 +1,36 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
-import { selectCursorVariety } from "../../redux/features/cursor/cursorSlice";
+import {
+  nodeVarietyChanged,
+  selectCursorVariety,
+  selectNodeVariety,
+} from "../../redux/features/cursor/cursorSlice";
 import {
   newNode,
   selectAdjacencyList,
-  selectNodePositions,
+  selectNodes,
 } from "../../redux/features/graph/graphSlice";
 import Connector from "../Connector/Connector";
-import Node from "../Node/Node";
+import Node from "../Nodes/Node/Node";
 
 type Props = {};
 
 function NodeController({}: Props) {
-  const [nodes, setNodes] = useState([]);
-  const nodePositions = useAppSelector(selectNodePositions);
+  const nodes = useAppSelector(selectNodes);
   const adjacencyList = useAppSelector(selectAdjacencyList);
   const cursorVariety = useAppSelector(selectCursorVariety);
+  const nodeVariety = useAppSelector(selectNodeVariety);
 
   const dispatch = useAppDispatch();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (cursorVariety == "AddNode") {
-      dispatch(newNode({ x: e.clientX, y: e.clientY }));
+      dispatch(
+        newNode({
+          position: { x: e.clientX, y: e.clientY },
+          variety: nodeVariety,
+        })
+      );
     }
   };
   return (
@@ -31,12 +40,19 @@ function NodeController({}: Props) {
         handleClick(e);
       }}
     >
-      {nodePositions.map((position, index) => {
-        return <Node id={index} initialPosition={position}></Node>;
+      {nodes.map((node, index) => {
+        const position = node.position;
+        return (
+          <Node
+            id={index}
+            initialPosition={position}
+            variety={node.variety}
+          ></Node>
+        );
       })}
       {adjacencyList.map((connection) => {
-        const originPosition = nodePositions[connection[0]];
-        const destinationPosition = nodePositions[connection[1]];
+        const originPosition = nodes[connection[0]].position;
+        const destinationPosition = nodes[connection[1]].position;
         return (
           <Connector
             originPosition={{

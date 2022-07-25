@@ -2,7 +2,7 @@ import React from "react";
 import { useAppDispatch } from "../../../redux/app/hooks";
 import {
   cursorVarietyChanged,
-  selectedNodeChanged,
+  nodeVarietyChanged,
 } from "../../../redux/features/cursor/cursorSlice";
 import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";

@@ -5,13 +5,13 @@ import { RootState, AppThunk } from "../../app/store";
 // import { fetchCount } from './counterAPI';
 
 export interface CursorState {
-  selectedNode: NodeVariety;
+  nodeVariety: NodeVariety;
   cursorVariety: CursorVariety;
 }
 
 const initialState: CursorState = {
   cursorVariety: "Move",
-  selectedNode: "Empty",
+  nodeVariety: "Empty",
 };
 
 export const cursorSlice = createSlice({
@@ -19,8 +19,8 @@ export const cursorSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    selectedNodeChanged: (state, action: PayloadAction<NodeVariety>) => {
-      state.selectedNode = action.payload;
+    nodeVarietyChanged: (state, action: PayloadAction<NodeVariety>) => {
+      state.nodeVariety = action.payload;
     },
     cursorVarietyChanged: (state, action: PayloadAction<CursorVariety>) => {
       state.cursorVariety = action.payload;
@@ -35,14 +35,12 @@ export const cursorSlice = createSlice({
   },
 });
 
-export const { selectedNodeChanged, cursorVarietyChanged } =
-  cursorSlice.actions;
+export const { nodeVarietyChanged, cursorVarietyChanged } = cursorSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectSelectedNode = (state: RootState) =>
-  state.cursor.selectedNode;
+export const selectNodeVariety = (state: RootState) => state.cursor.nodeVariety;
 export const selectCursorVariety = (state: RootState) =>
   state.cursor.cursorVariety;
 
