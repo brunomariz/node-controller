@@ -22,13 +22,6 @@ function Draggable({ initialPosition, children }: Props) {
     };
   }
 
-  function vectorAddition(v1: Position, v2: Position) {
-    return {
-      x: v1.x + v2.x,
-      y: v1.y + v2.y,
-    };
-  }
-
   function handleDrag(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     const mousePosition: Position = { x: e.clientX, y: e.clientY };
     const newPosition = vectorDifference(
