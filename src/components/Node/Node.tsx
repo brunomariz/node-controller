@@ -42,9 +42,6 @@ function Node({ initialPosition }: Props) {
       <div
         className="absolute w-screen h-screen"
         onMouseMove={(e) => {
-          // if (e.buttons != 1) {
-          //   console.log(mouseHolding);
-          // }
           if (mouseHolding) {
             handleDrag(e);
           }
@@ -55,12 +52,15 @@ function Node({ initialPosition }: Props) {
         style={{ zIndex: mouseHolding ? 10 : 0 }}
       ></div>
       <div
+        onMouseMove={(e) => {
+          if (mouseHolding) {
+            handleDrag(e);
+          }
+        }}
         onMouseUp={() => {
           setmouseHolding(false);
         }}
         onMouseDown={(e) => {
-          console.log("clock");
-
           const mousePosition: Position = { x: e.clientX, y: e.clientY };
           const difference = vectorDifference(position, mousePosition);
           setMousePositionDifference(difference);
