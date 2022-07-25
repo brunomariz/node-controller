@@ -57,5 +57,6 @@ function BaseNode({ initialPosition, id, inputs, outputs, children }: Props) {
     </Draggable>
   );
 }
-
+// TODO: fazer o numero de outputs corretos de acordo com o prop
+// TODO: fazer linhas entrarem e sairem dos pontos certos quando houver mais de 1 input/output
 export default BaseNode;
