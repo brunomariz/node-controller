@@ -1,5 +1,5 @@
 import React from "react";
-import LibraryScreen from "./components/LibraryScreen/LibraryScreen";
+import LibraryScreen from "./components/Library/LibraryScreen/LibraryScreen";
 import NodeController from "./components/NodeController/NodeController";
 
 function App() {
