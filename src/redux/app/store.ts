@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import cursorReducer from "../features/cursor/cursorSlice";
 import graphReducer from "../features/graph/graphSlice";
+import nodeLibraryReducer from "../features/nodeLibrary/nodeLibrarySlice";
 
 export const store = configureStore({
   reducer: {
     cursor: cursorReducer,
     graph: graphReducer,
+    nodeLibrary: nodeLibraryReducer,
   },
 });
 

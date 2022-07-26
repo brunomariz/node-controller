@@ -7,6 +7,7 @@ import {
 import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";
 import LibraryButton from "../LibraryButton/LibraryButton";
+import LibraryScreenTopbar from "./LibraryScreenTopbar";
 
 type Props = {};
 
@@ -15,11 +16,11 @@ function LibraryScreen({}: Props) {
   return (
     <>
       <Draggable
-        initialPosition={{ x: 500, y: 200 }}
+        initialPosition={{ x: 200, y: 200 }}
         onDrag={(e, position) => {}}
       >
         <div className="bg-white h-[320px] w-[480px] border-2">
-          <div className="border-2">Library</div>
+          <LibraryScreenTopbar></LibraryScreenTopbar>
           <PreventDrag>
             <div className="flex flex-col items-start">
               <LibraryButton

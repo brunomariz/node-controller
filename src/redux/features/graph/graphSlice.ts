@@ -12,14 +12,12 @@ export type INodes = {
 
 export interface GraphState {
   originNode: number | null;
-  destinationNode: number | null;
   adjacencyList: number[][];
   nodes: INodes;
 }
 
 const initialState: GraphState = {
   originNode: null,
-  destinationNode: null,
   adjacencyList: [
     [0, 1],
     [2, 3],
@@ -43,9 +41,9 @@ export const graphSlice = createSlice({
     originNodeChanged: (state, action: PayloadAction<number | null>) => {
       state.originNode = action.payload;
     },
-    destinationNodeChanged: (state, action: PayloadAction<number>) => {
-      state.destinationNode = action.payload;
-    },
+    // destinationNodeChanged: (state, action: PayloadAction<number>) => {
+    //   state.destinationNode = action.payload;
+    // },
     newConnection: (state, action: PayloadAction<number[]>) => {
       const [origin, destination] = action.payload;
 
@@ -86,6 +84,11 @@ export const graphSlice = createSlice({
         { position: action.payload.position, variety: action.payload.variety },
       ];
     },
+    clearNodes: (state) => {
+      state.adjacencyList = [];
+      state.nodes = [];
+      state.originNode = null;
+    },
     // decrement: (state) => {
     //   state.value -= 1;
     // },
@@ -98,10 +101,10 @@ export const graphSlice = createSlice({
 
 export const {
   originNodeChanged,
-  destinationNodeChanged,
   newConnection,
   nodeMoved,
   newNode,
+  clearNodes,
 } = graphSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
