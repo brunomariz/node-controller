@@ -44,7 +44,7 @@ function BaseNode({
       <div className="p-[1px] bg-black relative">
         <PreventDrag>
           <div
-            onClick={(e) => {
+            onMouseDown={(e) => {
               dispatch(originNodeChanged(id));
             }}
             className="absolute h-0 w-0 "
@@ -59,7 +59,7 @@ function BaseNode({
           <div
             className="absolute h-full"
             style={{ left: "calc(0% - 10px)", top: "0" }}
-            onClick={(e) => {
+            onMouseUp={(e) => {
               if (originNode != null && originNode != id) {
                 dispatch(newConnection([originNode, id]));
                 dispatch(originNodeChanged(null));

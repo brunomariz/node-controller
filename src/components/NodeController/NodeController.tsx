@@ -53,7 +53,7 @@ function NodeController({}: Props) {
       onDoubleClick={(e) => {
         handleClick(e);
       }}
-      onClick={(e) => {
+      onMouseUp={(e) => {
         if (originNode != null) {
           dispatch(originNodeChanged(null));
         }
