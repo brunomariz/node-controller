@@ -4,8 +4,6 @@ import { Position } from "../../@types/position";
 type Props = { originPosition: Position; destinationPosition: Position };
 
 function Connector({ originPosition, destinationPosition }: Props) {
-  console.log("component position");
-  console.log(originPosition);
   return (
     <svg className="h-full w-full fixed top-0 left-0">
       <line

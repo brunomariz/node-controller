@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../../redux/app/hooks";
 import { nodeMoved } from "../../../redux/features/graph/graphSlice";
 import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";
+import AddNode from "../Add/AddNode";
 import BaseNode from "../BaseNode/BaseNode";
 
 type Props = {
@@ -55,14 +56,7 @@ function Node({ variety, initialPosition, id }: Props) {
           outputs={1}
         ></BaseNode>
       ) : variety == "Add" ? (
-        <BaseNode
-          id={id}
-          initialPosition={initialPosition}
-          inputs={2}
-          outputs={1}
-        >
-          +
-        </BaseNode>
+        <AddNode id={id} initialPosition={initialPosition}></AddNode>
       ) : null}
     </>
   );

@@ -1,19 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
+import { nodeVarietyMaxIO } from "../../../components/Nodes/Node/IONumbers";
 import { RootState, AppThunk } from "../../app/store";
 // import { fetchCount } from './counterAPI';
 
+export type INodes = {
+  position: Position;
+  variety: NodeVariety;
+}[];
+
 export interface GraphState {
-  originNode: number;
-  destinationNode: number;
+  originNode: number | null;
+  destinationNode: number | null;
   adjacencyList: number[][];
-  nodes: { position: Position; variety: NodeVariety }[];
+  nodes: INodes;
 }
 
 const initialState: GraphState = {
-  originNode: 0,
-  destinationNode: 0,
+  originNode: null,
+  destinationNode: null,
   adjacencyList: [
     [0, 1],
     [2, 3],
@@ -34,13 +40,31 @@ export const graphSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    originNodeChanged: (state, action: PayloadAction<number>) => {
+    originNodeChanged: (state, action: PayloadAction<number | null>) => {
       state.originNode = action.payload;
     },
     destinationNodeChanged: (state, action: PayloadAction<number>) => {
       state.destinationNode = action.payload;
     },
     newConnection: (state, action: PayloadAction<number[]>) => {
+      const [origin, destination] = action.payload;
+
+      const occupiedInputs =
+        state.adjacencyList.filter((item) => item[1] == action.payload[1]) ||
+        [];
+      const destinationVariety = state.nodes[destination].variety;
+      const maxInputsOnDestination =
+        nodeVarietyMaxIO[destinationVariety].inputs;
+      // Remove last connection on node depending on max connections
+      if (occupiedInputs.length >= maxInputsOnDestination) {
+        const lastOccupiedInputConnection =
+          occupiedInputs[occupiedInputs.length - 1];
+        console.log(lastOccupiedInputConnection.toString());
+
+        state.adjacencyList = state.adjacencyList.filter(
+          (item) => item != lastOccupiedInputConnection
+        );
+      }
       state.adjacencyList = [
         ...state.adjacencyList.map((item) => [...item]),
         action.payload,
@@ -84,6 +108,7 @@ export const {
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectNodes = (state: RootState) => state.graph.nodes;
+export const selectOriginNode = (state: RootState) => state.graph.originNode;
 export const selectAdjacencyList = (state: RootState) => {
   return state.graph.adjacencyList;
 };
