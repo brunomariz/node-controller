@@ -5,20 +5,23 @@ import BaseNode from "../BaseNode/BaseNode";
 type Props = {
   id: number;
   initialPosition: Position;
+  value: number;
   focus: boolean;
 };
 
-function AddNode({ id, initialPosition, focus }: Props) {
+function ConstantNode({ id, initialPosition, value, focus }: Props) {
   return (
     <BaseNode
+      focus={focus}
       id={id}
       initialPosition={initialPosition}
-      inputs={2}
+      inputs={0}
       outputs={1}
-      label="Add"
-      focus={focus}
-    ></BaseNode>
+      label={"Constant"}
+    >
+      {value}
+    </BaseNode>
   );
 }
 
-export default AddNode;
+export default ConstantNode;

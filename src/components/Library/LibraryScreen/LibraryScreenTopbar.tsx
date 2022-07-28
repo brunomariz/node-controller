@@ -7,7 +7,7 @@ type Props = {};
 function LibraryScreenTopbar({}: Props) {
   const dispatch = useAppDispatch();
   return (
-    <div className="border-2 flex justify-between items-center">
+    <div className="border-2 flex justify-between items-center absolute top-0 left-0 w-full bg-gray-50 h-8">
       <span className="px-2">Library</span>
       <button
         onClick={() => dispatch(hideLibrary())}

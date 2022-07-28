@@ -6,6 +6,7 @@ import { RootState, AppThunk } from "../../app/store";
 // import { fetchCount } from './counterAPI';
 
 export type INodes = {
+  id: number;
   position: Position;
   variety: NodeVariety;
 }[];
@@ -13,7 +14,9 @@ export type INodes = {
 export interface GraphState {
   originNode: number | null;
   adjacencyList: number[][];
+  // adjacencyList: { [id: number]: number[] };
   nodes: INodes;
+  focusNode: number | null;
 }
 
 const initialState: GraphState = {
@@ -25,12 +28,14 @@ const initialState: GraphState = {
     [1, 3],
   ],
   nodes: [
-    { position: { x: 100, y: 200 }, variety: "Empty" },
-    { position: { x: 110, y: 300 }, variety: "Empty" },
-    { position: { x: 120, y: 400 }, variety: "Empty" },
-    { position: { x: 130, y: 500 }, variety: "Empty" },
-    { position: { x: 140, y: 600 }, variety: "Empty" },
+    { id: 1, position: { x: 110, y: 300 }, variety: "Empty" },
+    { id: 0, position: { x: 100, y: 200 }, variety: "Empty" },
+    { id: 2, position: { x: 120, y: 400 }, variety: "Empty" },
+    { id: 3, position: { x: 130, y: 500 }, variety: "Empty" },
+    { id: 4, position: { x: 140, y: 600 }, variety: "Empty" },
+    { id: 5, position: { x: 300, y: 200 }, variety: "Constant" },
   ],
+  focusNode: null,
 };
 
 export const graphSlice = createSlice({
@@ -50,7 +55,10 @@ export const graphSlice = createSlice({
       const occupiedInputs =
         state.adjacencyList.filter((item) => item[1] == action.payload[1]) ||
         [];
-      const destinationVariety = state.nodes[destination].variety;
+      const destinationIndex = state.nodes.findIndex((item) => {
+        return item.id == destination;
+      });
+      const destinationVariety = state.nodes[destinationIndex].variety;
       const maxInputsOnDestination =
         nodeVarietyMaxIO[destinationVariety].inputs;
       // Remove last connection on node depending on max connections
@@ -73,7 +81,10 @@ export const graphSlice = createSlice({
       action: PayloadAction<{ position: Position; id: number }>
     ) => {
       const { id, position } = action.payload;
-      state.nodes[id].position = position;
+      const index = state.nodes.findIndex((item) => {
+        return item.id == id;
+      });
+      state.nodes[index].position = position;
     },
     newNode: (
       state,
@@ -81,13 +92,34 @@ export const graphSlice = createSlice({
     ) => {
       state.nodes = [
         ...state.nodes,
-        { position: action.payload.position, variety: action.payload.variety },
+        {
+          position: action.payload.position,
+          variety: action.payload.variety,
+          id: state.nodes[state.nodes.length - 1].id + 1,
+        },
       ];
     },
     clearNodes: (state) => {
       state.adjacencyList = [];
       state.nodes = [];
       state.originNode = null;
+    },
+    focusNodeChanged: (state, action: PayloadAction<number | null>) => {
+      state.focusNode = action.payload;
+    },
+    nodeDeleted: (state, action: PayloadAction<number>) => {
+      state.nodes = state.nodes.filter((item) => {
+        return item.id != action.payload;
+      });
+      state.adjacencyList = state.adjacencyList.filter((item) => {
+        return item[0] != action.payload && item[1] != action.payload;
+      });
+      if (state.originNode == action.payload) {
+        state.originNode = null;
+      }
+      if (state.focusNode == action.payload) {
+        state.focusNode = null;
+      }
     },
     // decrement: (state) => {
     //   state.value -= 1;
@@ -105,6 +137,8 @@ export const {
   nodeMoved,
   newNode,
   clearNodes,
+  focusNodeChanged,
+  nodeDeleted,
 } = graphSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -115,5 +149,6 @@ export const selectOriginNode = (state: RootState) => state.graph.originNode;
 export const selectAdjacencyList = (state: RootState) => {
   return state.graph.adjacencyList;
 };
+export const selectFocusNode = (state: RootState) => state.graph.focusNode;
 
 export default graphSlice.reducer;

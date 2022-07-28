@@ -9,7 +9,7 @@ type Props = {};
 function Toolbar({}: Props) {
   const dispatch = useAppDispatch();
   return (
-    <div className="w-full bg-gray-300 z-[11] p-1 pt-2 flex items-end">
+    <div className="w-full bg-gray-300 z-[11] p-1 pt-2 flex items-end fixed top-0 left-0">
       <ToolbarButton
         onClick={() => {
           dispatch(clearNodes());

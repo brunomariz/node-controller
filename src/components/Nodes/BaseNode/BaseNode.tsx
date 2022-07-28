@@ -3,6 +3,7 @@ import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
 import { useAppDispatch, useAppSelector } from "../../../redux/app/hooks";
 import {
+  focusNodeChanged,
   newConnection,
   nodeMoved,
   originNodeChanged,
@@ -18,6 +19,7 @@ type Props = {
   outputs: number;
   children?: ReactNode | ReactNode[];
   label?: string;
+  focus?: boolean;
 };
 
 function BaseNode({
@@ -27,6 +29,7 @@ function BaseNode({
   outputs,
   children,
   label,
+  focus = false,
 }: Props) {
   const dispatch = useAppDispatch();
   const originNode = useAppSelector(selectOriginNode);
@@ -36,12 +39,21 @@ function BaseNode({
   }
   return (
     <Draggable
-      onDrag={(e, position) =>
-        dispatch(nodeMoved({ id, position: { x: position.x, y: position.y } }))
-      }
+      onDrag={(e, position) => {
+        dispatch(nodeMoved({ id, position: { x: position.x, y: position.y } }));
+      }}
       initialPosition={initialPosition}
     >
-      <div className="p-[1px] bg-black relative">
+      <div
+        style={{
+          padding: focus ? "2px" : "1px",
+          backgroundColor: focus ? "#a13355" : "black",
+        }}
+        className={"relative"}
+        onMouseDown={() => {
+          dispatch(focusNodeChanged(id));
+        }}
+      >
         <PreventDrag>
           <div
             onMouseDown={(e) => {

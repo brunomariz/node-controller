@@ -7,14 +7,16 @@ import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";
 import AddNode from "../Add/AddNode";
 import BaseNode from "../BaseNode/BaseNode";
+import ConstantNode from "../Constant/ConstantNode";
 
 type Props = {
   initialPosition: Position;
   id: number;
   variety: NodeVariety;
+  focus: boolean;
 };
 
-function Node({ variety, initialPosition, id }: Props) {
+function Node({ variety, initialPosition, id, focus }: Props) {
   const dispatch = useAppDispatch();
   return (
     // <Draggable
@@ -54,9 +56,21 @@ function Node({ variety, initialPosition, id }: Props) {
           initialPosition={initialPosition}
           inputs={1}
           outputs={1}
+          focus={focus}
         ></BaseNode>
       ) : variety == "Add" ? (
-        <AddNode id={id} initialPosition={initialPosition}></AddNode>
+        <AddNode
+          id={id}
+          initialPosition={initialPosition}
+          focus={focus}
+        ></AddNode>
+      ) : variety == "Constant" ? (
+        <ConstantNode
+          id={id}
+          initialPosition={initialPosition}
+          value={1}
+          focus={focus}
+        ></ConstantNode>
       ) : null}
     </>
   );
