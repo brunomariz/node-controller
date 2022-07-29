@@ -9,6 +9,7 @@ describe("cursor reducer", () => {
   it("should handle initial state", () => {
     expect(cursorReducer(undefined, { type: "unknown" })).toEqual({
       nodeVariety: "Empty",
+      cursorVariety: "Move",
     });
   });
 

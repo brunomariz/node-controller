@@ -28,12 +28,12 @@ const initialState: GraphState = {
     [1, 3],
   ],
   nodes: [
-    { id: 1, position: { x: 110, y: 300 }, variety: "Empty" },
-    { id: 0, position: { x: 100, y: 200 }, variety: "Empty" },
-    { id: 2, position: { x: 120, y: 400 }, variety: "Empty" },
-    { id: 3, position: { x: 130, y: 500 }, variety: "Empty" },
-    { id: 4, position: { x: 140, y: 600 }, variety: "Empty" },
-    { id: 5, position: { x: 300, y: 200 }, variety: "Constant" },
+    { id: 0, position: { x: 100, y: 400 }, variety: "Empty" },
+    { id: 1, position: { x: 250, y: 400 }, variety: "Empty" },
+    { id: 2, position: { x: 400, y: 300 }, variety: "Empty" },
+    { id: 3, position: { x: 550, y: 400 }, variety: "Add" },
+    { id: 4, position: { x: 100, y: 300 }, variety: "Add" },
+    { id: 5, position: { x: 100, y: 200 }, variety: "Constant" },
   ],
   focusNode: null,
 };
@@ -65,7 +65,6 @@ export const graphSlice = createSlice({
       if (occupiedInputs.length >= maxInputsOnDestination) {
         const lastOccupiedInputConnection =
           occupiedInputs[occupiedInputs.length - 1];
-        console.log(lastOccupiedInputConnection.toString());
 
         state.adjacencyList = state.adjacencyList.filter(
           (item) => item != lastOccupiedInputConnection
@@ -75,6 +74,11 @@ export const graphSlice = createSlice({
         ...state.adjacencyList.map((item) => [...item]),
         action.payload,
       ];
+    },
+    deleteConnection: (state, action: PayloadAction<number[]>) => {
+      state.adjacencyList = state.adjacencyList.filter((connection) => {
+        return JSON.stringify(connection) != JSON.stringify(action.payload);
+      });
     },
     nodeMoved: (
       state,
@@ -95,7 +99,10 @@ export const graphSlice = createSlice({
         {
           position: action.payload.position,
           variety: action.payload.variety,
-          id: state.nodes[state.nodes.length - 1].id + 1,
+          id:
+            state.nodes.length > 0
+              ? state.nodes[state.nodes.length - 1].id + 1
+              : 0,
         },
       ];
     },
@@ -108,12 +115,16 @@ export const graphSlice = createSlice({
       state.focusNode = action.payload;
     },
     nodeDeleted: (state, action: PayloadAction<number>) => {
-      state.nodes = state.nodes.filter((item) => {
-        return item.id != action.payload;
-      });
-      state.adjacencyList = state.adjacencyList.filter((item) => {
-        return item[0] != action.payload && item[1] != action.payload;
-      });
+      state.nodes = [
+        ...state.nodes.filter((item) => {
+          return item.id != action.payload;
+        }),
+      ];
+      state.adjacencyList = [
+        ...state.adjacencyList.filter((item) => {
+          return item[0] != action.payload && item[1] != action.payload;
+        }),
+      ];
       if (state.originNode == action.payload) {
         state.originNode = null;
       }
@@ -134,6 +145,7 @@ export const graphSlice = createSlice({
 export const {
   originNodeChanged,
   newConnection,
+  deleteConnection,
   nodeMoved,
   newNode,
   clearNodes,

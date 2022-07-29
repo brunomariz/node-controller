@@ -44,7 +44,9 @@ function NodeController({}: Props) {
         })
       );
     }
-    dispatch(focusNodeChanged(null));
+    if (focusNode != null) {
+      dispatch(focusNodeChanged(null));
+    }
   };
 
   const adjustOutputPosition = (position: Position, numOutputs: number = 1) => {
@@ -53,6 +55,21 @@ function NodeController({}: Props) {
   // const adjustInputPosition = (position: Position, numInputs: number = 1) => {
   //   return { x: position.x - 4, y: position.y + 32 / numInputs };
   // };
+  const calculateOriginDestination = (
+    connection: number[],
+    numConnections: number
+  ) => {
+    const originPosition = adjustOutputPosition(
+      findNodeById(connection[0], nodes).position
+    );
+    const destinationPosition = adjustInputPosition(
+      nodes,
+      adjacencyList,
+      connection[1],
+      numConnections
+    );
+    return { originPosition, destinationPosition };
+  };
   return (
     <div
       className="flex justify-center items-center w-full h-screen z-0"
@@ -73,34 +90,21 @@ function NodeController({}: Props) {
       }}
     >
       {nodes.map((node, index) => {
-        const position = node.position;
         return (
           <Node
             focus={focusNode == node.id}
             id={node.id}
-            initialPosition={position}
+            initialPosition={node.position}
             variety={node.variety}
           ></Node>
         );
       })}
       {adjacencyList.map((connection, index) => {
-        const originPosition = adjustOutputPosition(
-          // nodes[connection[0]].position
-          findNodeById(connection[0], nodes).position
-        );
-        // Count how many times node appears as output in adjacency
-        // list before the current item
-        const numConnections =
-          adjacencyList.slice(0, index).find((item) => item[1] == connection[1])
-            ?.length || 0;
-        const destinationPosition = adjustInputPosition(
-          // nodes[connection[1]].position,
-          // nodes[connection[1]].variety,
-          nodes,
-          adjacencyList,
-          connection[1],
-          numConnections
-        );
+        const numConnections = adjacencyList
+          .slice(0, index)
+          .filter((item) => item[1] == connection[1]).length;
+        const { originPosition, destinationPosition } =
+          calculateOriginDestination(connection, numConnections);
         return (
           <Connector
             originPosition={originPosition}

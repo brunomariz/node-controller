@@ -3,10 +3,12 @@ import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
 import { useAppDispatch, useAppSelector } from "../../../redux/app/hooks";
 import {
+  deleteConnection,
   focusNodeChanged,
   newConnection,
   nodeMoved,
   originNodeChanged,
+  selectAdjacencyList,
   selectOriginNode,
 } from "../../../redux/features/graph/graphSlice";
 import Draggable from "../../Controls/Draggable/Draggable";
@@ -33,6 +35,7 @@ function BaseNode({
 }: Props) {
   const dispatch = useAppDispatch();
   const originNode = useAppSelector(selectOriginNode);
+  const adjacencyList = useAppSelector(selectAdjacencyList);
 
   if (!label) {
     label = id.toString();
@@ -71,19 +74,30 @@ function BaseNode({
           <div
             className="absolute h-full"
             style={{ left: "calc(0% - 10px)", top: "0" }}
-            onMouseUp={(e) => {
-              if (originNode != null && originNode != id) {
-                dispatch(newConnection([originNode, id]));
-                dispatch(originNodeChanged(null));
-              }
-            }}
           >
             <div className="flex flex-col justify-around h-full">
               {Array(inputs)
                 .fill(null)
-                .map((item) => {
+                .map((_, index) => {
                   return (
-                    <svg height={20} width={10}>
+                    <svg
+                      onMouseUp={(e) => {
+                        if (originNode != null && originNode != id) {
+                          dispatch(newConnection([originNode, id]));
+                          dispatch(originNodeChanged(null));
+                        }
+                      }}
+                      onClick={(e) => {
+                        const connection = adjacencyList.filter(
+                          (connection) => {
+                            return connection[1] == id;
+                          }
+                        )[index];
+                        dispatch(deleteConnection(connection));
+                      }}
+                      height={20}
+                      width={10}
+                    >
                       <circle cx="10" cy="10" r="10" fill="black" />
                     </svg>
                   );
