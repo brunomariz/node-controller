@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch } from "../../redux/app/hooks";
-import { clearNodes } from "../../redux/features/graph/graphSlice";
+import { clearNodes, propagate } from "../../redux/features/graph/graphSlice";
 import { showLibrary } from "../../redux/features/nodeLibrary/nodeLibrarySlice";
 import ToolbarButton from "./ToolbarButton";
 
@@ -13,7 +13,6 @@ function Toolbar({}: Props) {
       <ToolbarButton
         onClick={() => {
           dispatch(clearNodes());
-          console.log("oi");
         }}
         label="New"
         large
@@ -23,6 +22,13 @@ function Toolbar({}: Props) {
           dispatch(showLibrary());
         }}
         label="Node Library"
+        large
+      ></ToolbarButton>
+      <ToolbarButton
+        onClick={() => {
+          dispatch(propagate());
+        }}
+        label="Run"
         large
       ></ToolbarButton>
     </div>

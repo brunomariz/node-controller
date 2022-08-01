@@ -2,20 +2,26 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
 import { nodeVarietyMaxIO } from "../../../components/Nodes/Node/IONumbers";
+import { processData } from "../../../model/processData";
 import { RootState, AppThunk } from "../../app/store";
 // import { fetchCount } from './counterAPI';
 
-export type INodes = {
+export type NodeOutputsType = (number | null)[];
+
+export type NodeType = {
   id: number;
   position: Position;
   variety: NodeVariety;
-}[];
+  outputs: NodeOutputsType;
+};
+
+export type NodesType = NodeType[];
 
 export interface GraphState {
   originNode: number | null;
   adjacencyList: number[][];
   // adjacencyList: { [id: number]: number[] };
-  nodes: INodes;
+  nodes: NodesType;
   focusNode: number | null;
 }
 
@@ -26,14 +32,22 @@ const initialState: GraphState = {
     [2, 3],
     [1, 2],
     [1, 3],
+    [4, 6],
+    [5, 6],
+    [6, 7],
+    [8, 9],
   ],
   nodes: [
-    { id: 0, position: { x: 100, y: 400 }, variety: "Empty" },
-    { id: 1, position: { x: 250, y: 400 }, variety: "Empty" },
-    { id: 2, position: { x: 400, y: 300 }, variety: "Empty" },
-    { id: 3, position: { x: 550, y: 400 }, variety: "Add" },
-    { id: 4, position: { x: 100, y: 300 }, variety: "Add" },
-    { id: 5, position: { x: 100, y: 200 }, variety: "Constant" },
+    { id: 0, position: { x: 100, y: 270 }, variety: "Empty", outputs: [] },
+    { id: 1, position: { x: 250, y: 270 }, variety: "Empty", outputs: [] },
+    { id: 2, position: { x: 400, y: 170 }, variety: "Empty", outputs: [] },
+    { id: 3, position: { x: 550, y: 270 }, variety: "Add", outputs: [] },
+    { id: 4, position: { x: 100, y: 400 }, variety: "Constant", outputs: [1] },
+    { id: 5, position: { x: 100, y: 500 }, variety: "Constant", outputs: [1] },
+    { id: 6, position: { x: 300, y: 450 }, variety: "Add", outputs: [] },
+    { id: 7, position: { x: 500, y: 450 }, variety: "Empty", outputs: [] },
+    { id: 8, position: { x: 100, y: 600 }, variety: "Constant", outputs: [1] },
+    { id: 9, position: { x: 300, y: 600 }, variety: "Empty", outputs: [] },
   ],
   focusNode: null,
 };
@@ -103,6 +117,12 @@ export const graphSlice = createSlice({
             state.nodes.length > 0
               ? state.nodes[state.nodes.length - 1].id + 1
               : 0,
+          outputs:
+            action.payload.variety == "Constant"
+              ? [1]
+              : Array(nodeVarietyMaxIO[action.payload.variety].outputs).fill(
+                  null
+                ),
         },
       ];
     },
@@ -132,6 +152,9 @@ export const graphSlice = createSlice({
         state.focusNode = null;
       }
     },
+    propagate: (state) => {
+      state.nodes = processData(state.nodes, state.adjacencyList);
+    },
     // decrement: (state) => {
     //   state.value -= 1;
     // },
@@ -151,6 +174,7 @@ export const {
   clearNodes,
   focusNodeChanged,
   nodeDeleted,
+  propagate,
 } = graphSlice.actions;
 
 // The function below is called a selector and allows us to select a value from

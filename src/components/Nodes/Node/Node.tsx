@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
 import { useAppDispatch } from "../../../redux/app/hooks";
-import { nodeMoved } from "../../../redux/features/graph/graphSlice";
+import { nodeMoved, NodeType } from "../../../redux/features/graph/graphSlice";
 import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";
 import AddNode from "../Add/AddNode";
@@ -10,13 +10,15 @@ import BaseNode from "../BaseNode/BaseNode";
 import ConstantNode from "../Constant/ConstantNode";
 
 type Props = {
-  initialPosition: Position;
-  id: number;
-  variety: NodeVariety;
+  // initialPosition: Position;
+  // id: number;
+  // variety: NodeVariety;
+  node: NodeType;
   focus: boolean;
 };
 
-function Node({ variety, initialPosition, id, focus }: Props) {
+// function Node({ variety, initialPosition, id, focus }: Props) {
+function Node({ node, focus }: Props) {
   const dispatch = useAppDispatch();
   return (
     // <Draggable
@@ -50,24 +52,20 @@ function Node({ variety, initialPosition, id, focus }: Props) {
     //   </div>
     // </Draggable>
     <>
-      {variety == "Empty" ? (
-        <BaseNode
-          id={id}
-          initialPosition={initialPosition}
-          inputs={1}
-          outputs={1}
-          focus={focus}
-        ></BaseNode>
-      ) : variety == "Add" ? (
+      {node.variety == "Empty" ? (
+        <BaseNode node={node} focus={focus}></BaseNode>
+      ) : node.variety == "Add" ? (
         <AddNode
-          id={id}
-          initialPosition={initialPosition}
+          // id={id}
+          // initialPosition={initialPosition}
+          node={node}
           focus={focus}
         ></AddNode>
-      ) : variety == "Constant" ? (
+      ) : node.variety == "Constant" ? (
         <ConstantNode
-          id={id}
-          initialPosition={initialPosition}
+          // id={id}
+          // initialPosition={initialPosition}
+          node={node}
           value={1}
           focus={focus}
         ></ConstantNode>

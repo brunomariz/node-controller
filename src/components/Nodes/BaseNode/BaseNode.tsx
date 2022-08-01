@@ -7,28 +7,33 @@ import {
   focusNodeChanged,
   newConnection,
   nodeMoved,
+  NodesType,
+  NodeType,
   originNodeChanged,
   selectAdjacencyList,
   selectOriginNode,
 } from "../../../redux/features/graph/graphSlice";
 import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";
+import { nodeVarietyMaxIO } from "../Node/IONumbers";
 
 type Props = {
-  initialPosition: Position;
-  id: number;
-  inputs: number;
-  outputs: number;
+  // initialPosition: Position;
+  // id: number;
+  // inputs: number;
+  // outputs: number;
+  node: NodeType;
   children?: ReactNode | ReactNode[];
   label?: string;
   focus?: boolean;
 };
 
 function BaseNode({
-  initialPosition,
-  id,
-  inputs,
-  outputs,
+  // initialPosition,
+  // id,
+  // inputs,
+  // outputs,
+  node,
   children,
   label,
   focus = false,
@@ -38,14 +43,17 @@ function BaseNode({
   const adjacencyList = useAppSelector(selectAdjacencyList);
 
   if (!label) {
-    label = id.toString();
+    // label = id.toString();
+    label = node.id.toString();
   }
   return (
     <Draggable
       onDrag={(e, position) => {
-        dispatch(nodeMoved({ id, position: { x: position.x, y: position.y } }));
+        // dispatch(nodeMoved({ id, position: { x: position.x, y: position.y } }));
+        dispatch(nodeMoved({ id: node.id, position }));
       }}
-      initialPosition={initialPosition}
+      // initialPosition={initialPosition}
+      initialPosition={node.position}
     >
       <div
         style={{
@@ -54,13 +62,15 @@ function BaseNode({
         }}
         className={"relative"}
         onMouseDown={() => {
-          dispatch(focusNodeChanged(id));
+          // dispatch(focusNodeChanged(id));
+          dispatch(focusNodeChanged(node.id));
         }}
       >
         <PreventDrag>
           <div
             onMouseDown={(e) => {
-              dispatch(originNodeChanged(id));
+              // dispatch(originNodeChanged(id));
+              dispatch(originNodeChanged(node.id));
             }}
             className="absolute h-0 w-0 "
             style={{
@@ -76,21 +86,25 @@ function BaseNode({
             style={{ left: "calc(0% - 10px)", top: "0" }}
           >
             <div className="flex flex-col justify-around h-full">
-              {Array(inputs)
+              {/* {Array(inputs) */}
+              {Array(nodeVarietyMaxIO[node.variety].inputs)
                 .fill(null)
                 .map((_, index) => {
                   return (
                     <svg
                       onMouseUp={(e) => {
-                        if (originNode != null && originNode != id) {
-                          dispatch(newConnection([originNode, id]));
+                        // if (originNode != null && originNode != id) {
+                        //   dispatch(newConnection([originNode, id]));
+                        if (originNode != null && originNode != node.id) {
+                          dispatch(newConnection([originNode, node.id]));
                           dispatch(originNodeChanged(null));
                         }
                       }}
                       onClick={(e) => {
                         const connection = adjacencyList.filter(
                           (connection) => {
-                            return connection[1] == id;
+                            // return connection[1] == id;
+                            return connection[1] == node.id;
                           }
                         )[index];
                         dispatch(deleteConnection(connection));
@@ -109,6 +123,7 @@ function BaseNode({
           <span className="absolute -top-5 left-0 bg-slate-400 leading-3 p-1">
             {label}
           </span>
+          <span>{node.outputs.toString()}</span>
           {children}
         </div>
       </div>

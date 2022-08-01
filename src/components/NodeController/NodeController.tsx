@@ -11,6 +11,7 @@ import {
   newNode,
   nodeDeleted,
   originNodeChanged,
+  propagate,
   selectAdjacencyList,
   selectFocusNode,
   selectNodes,
@@ -70,6 +71,7 @@ function NodeController({}: Props) {
     );
     return { originPosition, destinationPosition };
   };
+
   return (
     <div
       className="flex justify-center items-center w-full h-screen z-0"
@@ -93,9 +95,10 @@ function NodeController({}: Props) {
         return (
           <Node
             focus={focusNode == node.id}
-            id={node.id}
-            initialPosition={node.position}
-            variety={node.variety}
+            // id={node.id}
+            // initialPosition={node.position}
+            // variety={node.variety}
+            node={node}
           ></Node>
         );
       })}
