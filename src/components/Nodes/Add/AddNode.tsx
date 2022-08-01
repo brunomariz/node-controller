@@ -1,6 +1,17 @@
 import React from "react";
 import { Position } from "../../../@types/position";
-import { NodeType } from "../../../redux/features/graph/graphSlice";
+import { findInputs } from "../../../model/processData";
+import { useAppDispatch, useAppSelector } from "../../../redux/app/hooks";
+import {
+  NodeType,
+  selectAdjacencyList,
+  selectNodes,
+} from "../../../redux/features/graph/graphSlice";
+import {
+  hideSidebar,
+  showSidebar,
+  sidebarDataChanged,
+} from "../../../redux/features/sidebar/sidebarSlice";
 import BaseNode from "../BaseNode/BaseNode";
 
 type Props = {
@@ -9,16 +20,32 @@ type Props = {
 };
 
 function AddNode({ node, focus }: Props) {
+  const nodes = useAppSelector(selectNodes);
+  const adjacencyList = useAppSelector(selectAdjacencyList);
+  const nodeInputs = findInputs(node.id, nodes, adjacencyList);
+  const dispatch = useAppDispatch();
+
   return (
     <BaseNode
-      // id={id}
-      // initialPosition={initialPosition}
-      // inputs={2}
-      // outputs={1}
       node={node}
       label="Add"
       focus={focus}
-    ></BaseNode>
+      onLabelDoubleClick={() => {
+        dispatch(showSidebar());
+        dispatch(
+          sidebarDataChanged({
+            node: node,
+            properties: [{ editable: false, value: 2, label: "Inputs" }],
+          })
+        );
+      }}
+    >
+      {nodeInputs.length > 1 && (
+        <span>
+          {nodeInputs[0] || "_"} + {nodeInputs[1] || "_"} = {node.outputs}
+        </span>
+      )}{" "}
+    </BaseNode>
   );
 }
 

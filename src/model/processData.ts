@@ -5,8 +5,6 @@ export const processData = (
   previousNodes: NodesType,
   adjacencyList: number[][]
 ) => {
-  console.log("process data");
-
   const copyNodes = [
     ...previousNodes.map((node) => {
       const variety = findNodeById(node.id, previousNodes).variety;
@@ -62,7 +60,11 @@ function processAddNodeData(
   }
 }
 
-function findInputs(id: number, nodes: NodesType, adjacencyList: number[][]) {
+export function findInputs(
+  id: number,
+  nodes: NodesType,
+  adjacencyList: number[][]
+) {
   const inputConnections = adjacencyList.filter((connection) => {
     const [originId, destinationId] = connection;
     return destinationId == id;

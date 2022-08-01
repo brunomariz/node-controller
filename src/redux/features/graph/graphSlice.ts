@@ -104,6 +104,16 @@ export const graphSlice = createSlice({
       });
       state.nodes[index].position = position;
     },
+    nodeOutputsChanged: (
+      state,
+      action: PayloadAction<{ id: number; newOutputs: NodeOutputsType }>
+    ) => {
+      const { id, newOutputs } = action.payload;
+      const index = state.nodes.findIndex((item) => {
+        return item.id == id;
+      });
+      state.nodes[index].outputs = action.payload.newOutputs;
+    },
     newNode: (
       state,
       action: PayloadAction<{ position: Position; variety: NodeVariety }>
@@ -171,6 +181,7 @@ export const {
   deleteConnection,
   nodeMoved,
   newNode,
+  nodeOutputsChanged,
   clearNodes,
   focusNodeChanged,
   nodeDeleted,

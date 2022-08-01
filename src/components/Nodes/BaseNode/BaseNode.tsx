@@ -13,9 +13,11 @@ import {
   selectAdjacencyList,
   selectOriginNode,
 } from "../../../redux/features/graph/graphSlice";
+import { showSidebar } from "../../../redux/features/sidebar/sidebarSlice";
 import Draggable from "../../Controls/Draggable/Draggable";
 import PreventDrag from "../../Controls/PreventDrag/PreventDrag";
 import { nodeVarietyMaxIO } from "../Node/IONumbers";
+import { IoMdSettings } from "react-icons/io";
 
 type Props = {
   // initialPosition: Position;
@@ -26,6 +28,7 @@ type Props = {
   children?: ReactNode | ReactNode[];
   label?: string;
   focus?: boolean;
+  onLabelDoubleClick?: () => void;
 };
 
 function BaseNode({
@@ -37,6 +40,7 @@ function BaseNode({
   children,
   label,
   focus = false,
+  onLabelDoubleClick,
 }: Props) {
   const dispatch = useAppDispatch();
   const originNode = useAppSelector(selectOriginNode);
@@ -120,10 +124,13 @@ function BaseNode({
           </div>
         </PreventDrag>
         <div className="w-[100px] h-16 bg-slate-400">
-          <span className="absolute -top-5 left-0 bg-slate-400 leading-3 p-1">
-            {label}
-          </span>
-          <span>{node.outputs.toString()}</span>
+          <div
+            onDoubleClick={onLabelDoubleClick}
+            className="absolute -top-5 left-0 bg-slate-400 leading-3 p-1 flex items-center cursor-pointer"
+          >
+            <IoMdSettings size={12}></IoMdSettings>
+            <span className="pl-1">{label}</span>
+          </div>
           {children}
         </div>
       </div>
