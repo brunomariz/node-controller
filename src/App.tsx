@@ -19,12 +19,11 @@ import {
 function App() {
   const showLibrary = useAppSelector(selectShow);
   const showSidebar = useAppSelector(selectShowSidebar);
-  const sidebarData = useAppSelector(selectSidebarData);
 
   return (
     <ToolbarLayout>
       {showLibrary && <LibraryScreen></LibraryScreen>}
-      {showSidebar && <Sidebar data={sidebarData}></Sidebar>}
+      {showSidebar && <Sidebar></Sidebar>}
       <NodeController></NodeController>
     </ToolbarLayout>
   );

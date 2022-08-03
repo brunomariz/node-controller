@@ -8,16 +8,17 @@ import {
 } from "../../redux/features/graph/graphSlice";
 import {
   hideSidebar,
+  selectSidebarData,
   SidebarData,
 } from "../../redux/features/sidebar/sidebarSlice";
 import { findNodeById } from "../Nodes/Node/findNodeById";
 
-type Props = {
-  data: SidebarData;
-};
+type Props = {};
 
-function Sidebar({ data }: Props) {
+function Sidebar({}: Props) {
   const dispatch = useAppDispatch();
+  const data = useAppSelector(selectSidebarData);
+
   return (
     <div className="fixed right-0 top-0 bg-gray-900 p-2 z-30 w-72 h-screen text-gray-50">
       <div className="border-b-2 flex justify-between items-center  h-8">
@@ -35,11 +36,16 @@ function Sidebar({ data }: Props) {
         {data.properties.map((item) => {
           return item.editable ? (
             <div className="flex justify-start items-center">
-              {item.label}:{" "}
+              <span>
+                {item.label}:{` ${item.value}`}
+              </span>
               <input
                 type="text"
                 className="text-gray-900 w-full mx-2 px-1"
                 placeholder={JSON.stringify(item.value)}
+                onBlur={(e) => {
+                  e.target.value = "";
+                }}
                 onChange={(e) => {
                   if (item.onChange) {
                     item.onChange(e);

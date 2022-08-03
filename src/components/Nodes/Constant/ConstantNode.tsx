@@ -13,22 +13,15 @@ import {
 import BaseNode from "../BaseNode/BaseNode";
 
 type Props = {
-  // id: number;
-  // initialPosition: Position;
   node: NodeType;
-  value: number;
   focus: boolean;
 };
 
-function ConstantNode({ node, value, focus }: Props) {
+function ConstantNode({ node, focus }: Props) {
   const dispatch = useAppDispatch();
   return (
     <BaseNode
       focus={focus}
-      // id={id}
-      // initialPosition={initialPosition}
-      // inputs={0}
-      // outputs={1}
       node={node}
       label={"Constant"}
       onLabelDoubleClick={() => {
@@ -39,7 +32,7 @@ function ConstantNode({ node, value, focus }: Props) {
             properties: [
               {
                 editable: true,
-                value: value,
+                value: node.outputs[0] || [],
                 label: "value",
                 onChange: (e) => {
                   dispatch(

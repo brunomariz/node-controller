@@ -18,7 +18,7 @@ function Node({ node, focus }: Props) {
       ) : node.variety === "Add" ? (
         <AddNode node={node} focus={focus}></AddNode>
       ) : node.variety === "Constant" ? (
-        <ConstantNode node={node} value={1} focus={focus}></ConstantNode>
+        <ConstantNode node={node} focus={focus}></ConstantNode>
       ) : node.variety === "Subtract" ? (
         <SubtractNode node={node} focus={focus}></SubtractNode>
       ) : null}
