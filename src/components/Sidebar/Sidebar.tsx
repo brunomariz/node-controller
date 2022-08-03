@@ -1,5 +1,6 @@
 import React from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
+import { IoMdTransgender } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
 import {
   NodeType,
@@ -20,7 +21,7 @@ function Sidebar({}: Props) {
   const data = useAppSelector(selectSidebarData);
 
   return (
-    <div className="fixed right-0 top-0 bg-gray-900 p-2 z-30 w-72 h-screen text-gray-50">
+    <div className="window-container fixed right-0 top-0 p-2 z-30 w-72 h-screen">
       <div className="border-b-2 flex justify-between items-center  h-8">
         <span className="px-2 ">Node Parameters</span>
         <button
@@ -37,14 +38,17 @@ function Sidebar({}: Props) {
           return item.editable ? (
             <div className="flex justify-start items-center">
               <span>
-                {item.label}:{` ${item.value}`}
+                {item.label}:{` `}
               </span>
               <input
                 type="text"
                 className="text-gray-900 w-full mx-2 px-1"
                 placeholder={JSON.stringify(item.value)}
                 onBlur={(e) => {
-                  e.target.value = "";
+                  if (e.target.value) {
+                    e.target.placeholder = e.target.value;
+                    e.target.value = "";
+                  }
                 }}
                 onChange={(e) => {
                   if (item.onChange) {
