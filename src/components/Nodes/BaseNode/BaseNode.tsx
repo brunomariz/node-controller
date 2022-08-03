@@ -112,7 +112,11 @@ function BaseNode({
             </div>
           </div>
         </PreventDrag>
-        <div className="w-[100px] h-16 bg-slate-400 bottom-border">
+        <div
+          className={`w-[100px] h-16 bg-slate-400 ${
+            focus ? "bottom-border-red" : "bottom-border-black"
+          }`}
+        >
           <div
             onDoubleClick={onLabelDoubleClick}
             className="absolute -top-5 left-0 bg-slate-400 leading-3 p-1 flex items-center cursor-pointer"
