@@ -47,35 +47,24 @@ function BaseNode({
   const adjacencyList = useAppSelector(selectAdjacencyList);
 
   if (!label) {
-    // label = id.toString();
     label = node.id.toString();
   }
   return (
     <Draggable
       onDrag={(e, position) => {
-        // dispatch(nodeMoved({ id, position: { x: position.x, y: position.y } }));
         dispatch(nodeMoved({ id: node.id, position }));
       }}
-      // initialPosition={initialPosition}
       initialPosition={node.position}
     >
       <div
-        // style={
-        //   {
-        //     // padding: focus ? "2px" : "1px 1px 2px 1px",
-        //     // backgroundColor: focus ? "#a13355" : "black",
-        //   }
-        // }
         className={`relative`}
         onMouseDown={() => {
-          // dispatch(focusNodeChanged(id));
           dispatch(focusNodeChanged(node.id));
         }}
       >
         <PreventDrag>
           <div
             onMouseDown={(e) => {
-              // dispatch(originNodeChanged(id));
               dispatch(originNodeChanged(node.id));
             }}
             className="absolute h-0 w-0"
@@ -99,8 +88,6 @@ function BaseNode({
                   return (
                     <svg
                       onMouseUp={(e) => {
-                        // if (originNode != null && originNode != id) {
-                        //   dispatch(newConnection([originNode, id]));
                         if (originNode != null && originNode != node.id) {
                           dispatch(newConnection([originNode, node.id]));
                           dispatch(originNodeChanged(null));
