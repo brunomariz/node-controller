@@ -11,3 +11,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@layer components {
+  .window-container {
+    @apply bg-white border-2;
+    border-style: ridge;
+  }
+
+  .button-3d {
+    @apply bg-gray-100 hover:bg-gray-200;
+    box-shadow: 0px 0px 2px 0px white inset, 0px 0px 10px 0px #fff5 inset,
+      0px 0px 4px 2px #000 inset, 0px 0px 20px 3px #0004 inset;
+    border-radius: 4px;
+  }
+}

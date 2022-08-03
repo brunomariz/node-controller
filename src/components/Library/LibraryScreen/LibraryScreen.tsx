@@ -20,10 +20,7 @@ function LibraryScreen({}: Props) {
         initialPosition={{ x: 200, y: 200 }}
         onDrag={(e, position) => {}}
       >
-        <div
-          style={{ borderStyle: "ridge" }}
-          className="bg-white h-[320px] w-[480px] border-2 overflow-scroll"
-        >
+        <div className="window-container h-[320px] w-[480px] overflow-scroll">
           <LibraryScreenTopbar></LibraryScreenTopbar>
           <div className="">
             <PreventDrag>

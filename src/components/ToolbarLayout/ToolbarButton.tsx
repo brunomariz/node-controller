@@ -16,7 +16,7 @@ function ToolbarButton({ label, large = false, onClick }: Props) {
               onClick(e);
             }
           }}
-          className="ml-1 h-32 w-20 bg-gray-100 hover:bg-gray-200"
+          className="button-3d ml-1 h-32 w-20 "
         >
           {label}
         </button>

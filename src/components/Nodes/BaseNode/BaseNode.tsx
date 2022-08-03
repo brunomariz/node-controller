@@ -61,7 +61,7 @@ function BaseNode({
     >
       <div
         style={{
-          padding: focus ? "2px" : "1px",
+          padding: focus ? "2px" : "1px 1px 2px 1px",
           backgroundColor: focus ? "#a13355" : "black",
         }}
         className={"relative"}
