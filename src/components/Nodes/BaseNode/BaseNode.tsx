@@ -60,11 +60,13 @@ function BaseNode({
       initialPosition={node.position}
     >
       <div
-        style={{
-          padding: focus ? "2px" : "1px 1px 2px 1px",
-          backgroundColor: focus ? "#a13355" : "black",
-        }}
-        className={"relative"}
+        // style={
+        //   {
+        //     // padding: focus ? "2px" : "1px 1px 2px 1px",
+        //     // backgroundColor: focus ? "#a13355" : "black",
+        //   }
+        // }
+        className={`relative`}
         onMouseDown={() => {
           // dispatch(focusNodeChanged(id));
           dispatch(focusNodeChanged(node.id));
@@ -76,7 +78,7 @@ function BaseNode({
               // dispatch(originNodeChanged(id));
               dispatch(originNodeChanged(node.id));
             }}
-            className="absolute h-0 w-0 "
+            className="absolute h-0 w-0"
             style={{
               borderTop: "10px solid transparent",
               borderBottom: "10px solid transparent",
@@ -123,7 +125,7 @@ function BaseNode({
             </div>
           </div>
         </PreventDrag>
-        <div className="w-[100px] h-16 bg-slate-400">
+        <div className="w-[100px] h-16 bg-slate-400 bottom-border">
           <div
             onDoubleClick={onLabelDoubleClick}
             className="absolute -top-5 left-0 bg-slate-400 leading-3 p-1 flex items-center cursor-pointer"

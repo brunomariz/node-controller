@@ -16,7 +16,7 @@ function ToolbarButton({ label, large = false, onClick }: Props) {
               onClick(e);
             }
           }}
-          className="button-3d ml-1 h-32 w-20 "
+          className="bottom-border ml-1 h-32 w-20 "
         >
           {label}
         </button>
