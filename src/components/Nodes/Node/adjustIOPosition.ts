@@ -1,8 +1,31 @@
 import { NodeVariety } from "../../../@types/nodeVariety";
 import { Position } from "../../../@types/position";
 import { NodesType } from "../../../redux/features/graph/graphSlice";
-import { adjustInputPositionAdd } from "../Add/adjustIOPositions";
 import { findNodeById } from "./findNodeById";
+
+export const adjustInputPositionAdd = (
+  position: Position,
+  inputNumber: number
+) => {
+  return {
+    x: position.x - 4,
+    y: position.y + 16 + 32 * inputNumber,
+  };
+};
+
+export const adjustOutputPositionAdd = (position: Position) => {
+  return { x: position.x + 107, y: position.y + 32 };
+};
+
+export const adjustInputPositionSubtract = (
+  position: Position,
+  inputNumber: number
+) => {
+  return {
+    x: position.x - 4,
+    y: position.y + 16 + 32 * inputNumber,
+  };
+};
 
 export const adjustInputPosition = (
   nodes: NodesType,
@@ -16,6 +39,8 @@ export const adjustInputPosition = (
   switch (variety) {
     case "Add":
       return adjustInputPositionAdd(position, inputNumber);
+    case "Subtract":
+      return adjustInputPositionSubtract(position, inputNumber);
     default:
       return { x: position.x - 4, y: position.y + 32 };
   }

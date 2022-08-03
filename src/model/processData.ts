@@ -18,6 +18,9 @@ export const processData = (
         // case "Constant":
         //   return;
 
+        case "Subtract":
+          return processSubtractNodeData(node.id, previousNodes, adjacencyList);
+
         default:
           return node;
       }
@@ -53,6 +56,24 @@ function processAddNodeData(
       return acc != null && curr != null ? acc + curr : acc;
     }, 0);
     const newNode: NodeType = { ...node, outputs: [sum] };
+    return newNode;
+  } else {
+    const newNode: NodeType = { ...node, outputs: [] };
+    return newNode;
+  }
+}
+
+function processSubtractNodeData(
+  id: number,
+  nodes: NodesType,
+  adjacencyList: number[][]
+) {
+  const node = findNodeById(id, nodes);
+  const inputs = findInputs(id, nodes, adjacencyList);
+  if (inputs.length > 0) {
+    const difference =
+      inputs[0] != null && inputs[1] != null ? inputs[0] - inputs[1] : 0;
+    const newNode: NodeType = { ...node, outputs: [difference] };
     return newNode;
   } else {
     const newNode: NodeType = { ...node, outputs: [] };

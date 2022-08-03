@@ -44,7 +44,7 @@ const initialState: GraphState = {
     { id: 3, position: { x: 550, y: 270 }, variety: "Add", outputs: [] },
     { id: 4, position: { x: 100, y: 400 }, variety: "Constant", outputs: [1] },
     { id: 5, position: { x: 100, y: 500 }, variety: "Constant", outputs: [1] },
-    { id: 6, position: { x: 300, y: 450 }, variety: "Add", outputs: [] },
+    { id: 6, position: { x: 300, y: 450 }, variety: "Subtract", outputs: [] },
     { id: 7, position: { x: 500, y: 450 }, variety: "Empty", outputs: [] },
     { id: 8, position: { x: 100, y: 600 }, variety: "Constant", outputs: [1] },
     { id: 9, position: { x: 300, y: 600 }, variety: "Empty", outputs: [] },
@@ -67,8 +67,7 @@ export const graphSlice = createSlice({
       const [origin, destination] = action.payload;
 
       const occupiedInputs =
-        state.adjacencyList.filter((item) => item[1] == action.payload[1]) ||
-        [];
+        state.adjacencyList.filter((item) => item[1] == destination) || [];
       const destinationIndex = state.nodes.findIndex((item) => {
         return item.id == destination;
       });
@@ -84,10 +83,13 @@ export const graphSlice = createSlice({
           (item) => item != lastOccupiedInputConnection
         );
       }
+      // Include new connection
       state.adjacencyList = [
         ...state.adjacencyList.map((item) => [...item]),
         action.payload,
       ];
+      // Remove outputs from destination node
+      state.nodes[destinationIndex].outputs = [];
     },
     deleteConnection: (state, action: PayloadAction<number[]>) => {
       state.adjacencyList = state.adjacencyList.filter((connection) => {

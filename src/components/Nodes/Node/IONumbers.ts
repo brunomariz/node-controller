@@ -8,4 +8,5 @@ export const nodeVarietyMaxIO: INodeMaxIO = {
   Empty: { inputs: 1, outputs: 1 },
   Add: { inputs: 2, outputs: 1 },
   Constant: { inputs: 0, outputs: 1 },
+  Subtract: { inputs: 2, outputs: 1 },
 };
