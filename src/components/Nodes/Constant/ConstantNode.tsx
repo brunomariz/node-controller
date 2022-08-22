@@ -24,7 +24,7 @@ function ConstantNode({ node, focus }: Props) {
       focus={focus}
       node={node}
       label={"Constant"}
-      onLabelDoubleClick={() => {
+      onLabelClick={() => {
         dispatch(showSidebar());
         dispatch(
           sidebarDataChanged({

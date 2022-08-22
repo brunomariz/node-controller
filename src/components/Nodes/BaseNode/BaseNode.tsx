@@ -28,7 +28,7 @@ type Props = {
   children?: ReactNode | ReactNode[];
   label?: string;
   focus?: boolean;
-  onLabelDoubleClick?: () => void;
+  onLabelClick?: () => void;
 };
 
 function BaseNode({
@@ -40,7 +40,7 @@ function BaseNode({
   children,
   label,
   focus = false,
-  onLabelDoubleClick,
+  onLabelClick,
 }: Props) {
   const dispatch = useAppDispatch();
   const originNode = useAppSelector(selectOriginNode);
@@ -118,7 +118,7 @@ function BaseNode({
           }`}
         >
           <div
-            onDoubleClick={onLabelDoubleClick}
+            onClick={onLabelClick}
             className="absolute -top-5 left-0 bg-slate-400 leading-3 p-1 flex items-center cursor-pointer"
           >
             <IoMdSettings size={12}></IoMdSettings>

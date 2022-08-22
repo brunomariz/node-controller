@@ -30,7 +30,7 @@ function SubtractNode({ node, focus }: Props) {
       node={node}
       label="Subtract"
       focus={focus}
-      onLabelDoubleClick={() => {
+      onLabelClick={() => {
         dispatch(showSidebar());
         dispatch(
           sidebarDataChanged({
