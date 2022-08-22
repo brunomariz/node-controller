@@ -1,13 +1,18 @@
 import React from "react";
-import { useAppDispatch } from "../../redux/app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
 import { clearNodes, propagate } from "../../redux/features/graph/graphSlice";
-import { showLibrary } from "../../redux/features/nodeLibrary/nodeLibrarySlice";
+import {
+  hideLibrary,
+  selectShow,
+  showLibrary,
+} from "../../redux/features/nodeLibrary/nodeLibrarySlice";
 import ToolbarButton from "./ToolbarButton";
 
 type Props = {};
 
 function Toolbar({}: Props) {
   const dispatch = useAppDispatch();
+  const libraryShow = useAppSelector(selectShow);
   return (
     <div className="window-container w-full z-[11] p-1 pt-2 flex items-end fixed top-0 left-0">
       <ToolbarButton
@@ -19,7 +24,11 @@ function Toolbar({}: Props) {
       ></ToolbarButton>
       <ToolbarButton
         onClick={() => {
-          dispatch(showLibrary());
+          if (!libraryShow) {
+            dispatch(showLibrary());
+          } else {
+            dispatch(hideLibrary());
+          }
         }}
         label="Node Library"
         large
