@@ -30,12 +30,24 @@ function AddNode({ node, focus }: Props) {
       node={node}
       label="Add"
       focus={focus}
-      onLabelDoubleClick={() => {
+      onLabelClick={() => {
         dispatch(showSidebar());
         dispatch(
           sidebarDataChanged({
             node: node,
-            properties: [{ editable: false, value: 2, label: "Inputs" }],
+            properties: [
+              { editable: false, value: 2, label: "Inputs" },
+              {
+                editable: false,
+                value: nodeInputs[0] ? nodeInputs[0] : "0",
+                label: "Input 1",
+              },
+              {
+                editable: false,
+                value: nodeInputs[1] ? nodeInputs[1] : "0",
+                label: "Input 2",
+              },
+            ],
           })
         );
       }}
