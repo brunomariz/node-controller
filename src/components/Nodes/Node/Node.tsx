@@ -3,6 +3,7 @@ import { nodeMoved, NodeType } from "../../../redux/features/graph/graphSlice";
 import AddNode from "../Add/AddNode";
 import BaseNode from "../BaseNode/BaseNode";
 import ConstantNode from "../Constant/ConstantNode";
+import EmptyNode from "../Empty/EmptyNode";
 import SubtractNode from "../Subtract/SubtractNode";
 
 type Props = {
@@ -14,7 +15,7 @@ function Node({ node, focus }: Props) {
   return (
     <>
       {node.variety === "Empty" ? (
-        <BaseNode node={node} focus={focus}></BaseNode>
+        <EmptyNode node={node} focus={focus}></EmptyNode>
       ) : node.variety === "Add" ? (
         <AddNode node={node} focus={focus}></AddNode>
       ) : node.variety === "Constant" ? (
