@@ -31,6 +31,11 @@ function ConstantNode({ node, focus }: Props) {
             node: node,
             properties: [
               {
+                editable: false,
+                label: "Description",
+                value: "Outputs a constant value",
+              },
+              {
                 editable: true,
                 value: node.outputs[0] || [],
                 label: "Value",

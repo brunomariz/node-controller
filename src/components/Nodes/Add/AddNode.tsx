@@ -36,6 +36,11 @@ function AddNode({ node, focus }: Props) {
           sidebarDataChanged({
             node: node,
             properties: [
+              {
+                editable: false,
+                label: "Description",
+                value: "Adds input values",
+              },
               { editable: false, value: 2, label: "Inputs" },
               {
                 editable: false,

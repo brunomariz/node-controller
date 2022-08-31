@@ -29,7 +29,13 @@ function EmptyNode({ node, focus }: Props) {
         dispatch(
           sidebarDataChanged({
             node: node,
-            properties: [],
+            properties: [
+              {
+                editable: false,
+                label: "Description",
+                value: "Repeats input value on output",
+              },
+            ],
           })
         );
       }}
