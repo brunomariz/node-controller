@@ -31,9 +31,11 @@ function Sidebar({}: Props) {
           <AiFillCloseSquare size={25}></AiFillCloseSquare>
         </button>
       </div>
-      <div className="py-1">
+      <div className="py-1 text-gray-900">
         <div>{data.node?.variety} Node</div>
-        <div>Node ID: {data.node?.id}</div>
+        <div>
+          Node ID: <span className="text-gray-600">{data.node?.id}</span>
+        </div>
         {data.properties.map((item) => {
           return item.editable ? (
             <div className="flex justify-start items-center">
@@ -59,7 +61,7 @@ function Sidebar({}: Props) {
             </div>
           ) : (
             <div>
-              {item.label}: {item.value}
+              {item.label}: <span className="text-gray-600">{item.value}</span>
             </div>
           );
         })}

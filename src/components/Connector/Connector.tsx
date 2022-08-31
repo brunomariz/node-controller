@@ -5,7 +5,7 @@ type Props = { originPosition: Position; destinationPosition: Position };
 
 function Connector({ originPosition, destinationPosition }: Props) {
   return (
-    <svg className="h-full w-full absolute top-0 left-0">
+    <svg className="w-screen min-h-max h-screen absolute top-0 left-0">
       <line
         x1={originPosition.x}
         y1={originPosition.y}

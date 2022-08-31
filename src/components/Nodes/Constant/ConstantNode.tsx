@@ -33,7 +33,7 @@ function ConstantNode({ node, focus }: Props) {
               {
                 editable: true,
                 value: node.outputs[0] || [],
-                label: "value",
+                label: "Value",
                 onChange: (e) => {
                   dispatch(
                     nodeOutputsChanged({

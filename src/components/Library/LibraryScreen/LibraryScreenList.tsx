@@ -11,11 +11,16 @@ function LibraryScreenList({}: Props) {
         nodeVariety="Empty"
         value="Empty Node"
       ></LibraryButton>
-      <LibraryButton color="blue" nodeVariety="Add" value="Add"></LibraryButton>
       <LibraryButton
         color="blue"
         nodeVariety="Constant"
         value="Constant"
+      ></LibraryButton>
+      <LibraryButton color="blue" nodeVariety="Add" value="Add"></LibraryButton>
+      <LibraryButton
+        color="blue"
+        nodeVariety="Subtract"
+        value="Subtract"
       ></LibraryButton>
     </div>
   );
