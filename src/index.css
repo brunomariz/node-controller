@@ -14,7 +14,7 @@ body {
 
 @layer components {
   .window-container {
-    @apply bg-white border-2;
+    @apply bg-white border-[1px];
     border-style: ridge;
   }
 
